@@ -101,6 +101,7 @@ const getMasterBranchProtection = repo =>
 Promise.fromCallback(octo.orgs(process.env.GITHUB_ORG).fetch)
   .then((org) => fetchAll(org.repos.fetch))
   .filter(result => result.private === false)
+  .filter(result => result.fork === false)
   .map(getReadme)
   .map(getContributing)
   .map(getChangelog)
