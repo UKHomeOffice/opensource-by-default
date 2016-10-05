@@ -1,0 +1,78 @@
+<html>
+<head>
+  <link href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" rel="stylesheet"
+        integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+  <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.6.3/css/font-awesome.min.css" rel="stylesheet"
+        integrity="sha384-T8Gy5hrqNKT+hzMclPo118YTQO6cYprQmhrYwIiQ/3axmI1hQomh7Ud2hPOy8SP1" crossorigin="anonymous">
+  <script src="//cdnjs.cloudflare.com/ajax/libs/angular.js/1.5.8/angular.min.js"></script>
+  <script src="//ajax.googleapis.com/ajax/libs/angularjs/1.5.8/angular-aria.js"></script>
+  <script>
+    var App = angular.module('App', ['ngAria']);
+
+    App.controller('ReposController', function ($scope, $http) {
+      $http.get('repos.json')
+        .then(function (res) {
+          $scope.repos = res.data;
+        });
+    });
+  </script>
+  <style>
+    tr:nth-child(even) {
+      background: #CCC
+    }
+
+    [ng-click],
+    [data-ng-click],
+    [x-ng-click] {
+      cursor: pointer;
+    }
+
+    thead {
+      background: black;
+    }
+
+    thead a {
+      color: white;
+    }
+
+    th, td {
+      padding-right: 1em;
+    }
+  </style>
+</head>
+<body ng-app="App">
+<h1>UK Home Office GitHub Repository Summary</h1>
+<table ng-controller="ReposController">
+  <thead>
+  <th><a ng-click="sortType = 'name'; sortReverse = !sortReverse">Name</a></th>
+  <th><a ng-click="sortType = 'license'; sortReverse = !sortReverse">License</a></th>
+  <th><a ng-click="sortType = 'readme'; sortReverse = !sortReverse">Readme</a></th>
+  <th><a ng-click="sortType = 'travis'; sortReverse = !sortReverse">Travis</a></th>
+  <th><a ng-click="sortType = 'contributing'; sortReverse = !sortReverse">Contributing</a></th>
+  <th><a ng-click="sortType = 'masterBranchProtection'; sortReverse = !sortReverse">Master Branch Protection</a></th>
+  </thead>
+  <tbody>
+  <tr ng-repeat="repo in repos| orderBy:sortType:sortReverse">
+    <td><a ng-href="{{repo.url}}" ng-bind="repo.name"></a></td>
+    <td><a ng-if="repo.license && repo.license.name != 'Other'" ng-href="{{repo.license.url}}"
+           ng-bind="repo.license.name"></a>
+
+      <a ng-if="repo.license && repo.license.name == 'Other'" ng-href="{{repo.url}}/blob/master/LICENSE"
+         ng-bind="repo.license.name"></a>
+
+      <span ng-if="!repo.license" class="fa fa-times" title="NO"></span>
+    </td>
+    <td><span class="fa" ng-class="repo.readme ? 'fa-check' : 'fa-times'" title="{{repo.readme ? 'YES' : 'NO'}}"></span>
+    </td>
+    <td><span class="fa" ng-class="repo.travis ? 'fa-check' : 'fa-times'" title="{{repo.travis ? 'YES' : 'NO'}}"></span>
+    </td>
+    <td><span class="fa" ng-class="repo.contributing ? 'fa-check' : 'fa-times'"
+              title="{{repo.contributing ? 'YES' : 'NO'}}"></span></td>
+    <td><span class="fa" ng-class="repo.masterBranchProtection ? 'fa-check' : 'fa-times'"
+              title="{{repo.masterBranchProtection ? 'YES' : 'NO'}}"></span></td>
+  </tr>
+  </tbody>
+</table>
+
+</body>
+</html>
