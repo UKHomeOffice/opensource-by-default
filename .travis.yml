@@ -1,0 +1,9 @@
+language: node_js
+node_js:
+- '4'
+script: node index.js
+env:
+  global:
+    - GITHUB_ORG=UKHomeOffice
+    - GITHUB_REPO=opensource-by-default
+    - secure: n7Ksm9eR7gbl//4Gip5ykdFSN3wogXtGJAVVCVJKhXR0gO8Bmq4lHI0GS+FMZWOYMjQnTgixi3k6jUNBdfHZTQRBmp4bVgCCFiD39YWxudNac3CgCIA3/yAOOVBwuq640pnFCr6oMvlJNQnakWsfqWHn8NhKs7JoGSawl0U0Nf6RW20nhhqQHY5AEHsqQYEE/8ddjsC2IMcvwZ3WVUGwpxFT0XD/cU+qGuc6iF8kmt8FkoirIVmPkEIHbZy78tx3Ujtb5FqjUOXhZb96hidhBpDz8HAPe/c1aCmA+N/BxXsoVL7+0TSQbkLovR0/57GR45bT3tQUjxska+XyumqGFz+QLY0orUYZ0nx8eVoRtZaB02tY59Nc7VPAp09xa92DOBp3ljCCPgesHJcHAoU8cAaxpIPu5J2Clc0xQ+J2BtDzolootok0ged1bHG4nxLIuKsZwllhx0Hr8zYYYCRFgOeFsllByvsBYCOscDM7BMUPZXS84nXrqhKtWrx9vZcfibKhwO2AlIq+pVy+4aysIOr1CzUBixKWHJCT1DNDmlMane+9chYPWx8+wqKfK26OIYIxP2XWMwf5g6TrJp+SqZ0Bsi6vgGQlinafAOBqkjqH7HV75ZjVsJEqooRi0B8L2ZgyQINwNlFxokaSUQnmsturX1xwRKYzN5neG9xhGyw=
