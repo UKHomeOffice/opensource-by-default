@@ -1,6 +1,7 @@
 "use strict";
 const Promise = require("bluebird");
 const _ = require('lodash');
+const readFile = Promise.promisify(require("fs").readFile);
 
 const Octokat = require('octokat');
 
@@ -98,6 +99,45 @@ const getMasterBranchProtection = repo =>
     })
     .then(masterBranchProtection => _.set(repo, "masterBranchProtection", masterBranchProtection));
 
+const makeIssues = repos => {
+  if (!process.env.GITHUB_ISSUES) {
+    return;
+  }
+  return Promise.map(repos, repo => {
+    if (!repo.license)
+      makeOrGetIssue(repo, "license");
+  })
+}
+
+const makeOrGetIssue = (repo, template) =>
+  getTemplateIssue(template)
+    .then(result => this.template = result)
+    .then(() => fetchAll(repo.issues.fetch))
+    .map(result => result.title)
+    .then(titles => _.includes(titles, this.template.title))
+    .then(issueExists => {
+      if (issueExists) {
+        return;
+      }
+      return createIssue(repo, this.template.title, this.template.body);
+    })
+
+const getTemplateIssue = template =>
+  readFile(`./issueBodies/${template}.md`, {encoding: 'utf8'})
+    .then(contents => {
+      let splitup = contents.split(/\r\n|\r|\n/);
+      return {
+        title: splitup.shift(),
+        body: splitup.join('\n')
+      }
+    });
+
+const createIssue = (repo, title, body) =>
+  repo.issues.create({
+    title: title,
+    body: body
+  });
+
 Promise.fromCallback(octo.orgs(process.env.GITHUB_ORG).fetch)
   .then((org) => fetchAll(org.repos.fetch))
   .filter(result => result.private === false)
@@ -106,5 +146,6 @@ Promise.fromCallback(octo.orgs(process.env.GITHUB_ORG).fetch)
   .map(getContributing)
   .map(getChangelog)
   .map(getMasterBranchProtection)
+  .tap(makeIssues)
   .map(formatResult)
   .tap(pushResultsToGithub)
