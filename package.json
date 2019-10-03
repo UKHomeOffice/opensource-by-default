@@ -1,0 +1,25 @@
+{
+  "name": "opensource-by-default",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/UKHomeOffice/opensource-by-default.git"
+  },
+  "author": "",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/UKHomeOffice/opensource-by-default/issues"
+  },
+  "homepage": "https://github.com/UKHomeOffice/opensource-by-default#readme",
+  "dependencies": {
+    "bluebird": "^3.4.6",
+    "github": "^3.1.1",
+    "lodash": "^4.16.3",
+    "octokat": "^0.4.18"
+  }
+}
